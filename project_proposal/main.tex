@@ -1,0 +1,275 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+% -----------------------------------------------------
+% bvraghav-tiet-ucs503p-article.sty
+% -----------------------------------------------------
+
+% Variable: Lab Instructor
+\makeatletter \newcommand{\BvrSetLabInstructor}[1]{%
+  \gdef\Bvr@LabInstructor{#1}}
+% default
+\newcommand{\Bvr@LabInstructor}{Dr. Raghav %
+  B. Venkataramaiyer}
+% public accessor
+\newcommand{\BvrLabInstructorValue}{\Bvr@LabInstructor}
+\makeatother
+
+% Add subtitle
+\usepackage{titling}
+% -- Set title bold
+\pretitle{\begin{center}\bfseries\fontsize{18bp}{18bp}\selectfont}
+\makeatletter
+\newcommand{\BvrSubtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip 0.5em}%
+}
+\makeatother
+
+% Hints in the section title(s)
+\newcommand{\BvrHint}[1]{%
+  {\normalfont\normalsize\itshape\hfill #1}}
+
+% -----------------------------------------------------
+
+\title{FoodBridge: A Surplus Food Redistribution Matcher}
+
+\BvrSetLabInstructor{Mrs. Anushka}
+
+\BvrSubtitle{%
+  Project Proposal for UCS503P  \\
+  Submitted to: \BvrLabInstructorValue \\ \bfseries
+  Thapar Institute of Engineering and Technology \\
+  Team Number: 3%
+}
+
+\author{
+  Shikhar Goel%
+  \thanks{Roll No: \texttt{1024030916}, %
+    Email: \texttt{sgoel2\_be24\@thapar.edu}}
+  \and
+  Hardik Pajiala%
+  \thanks{Roll No: \texttt{1024030119}, %
+    Email: \texttt{hpajiala\_be24\@thapar.edu}}
+  \and
+  Ayush Shukla%
+  \thanks{Roll No: \texttt{1024030164}, %
+    Email: \texttt{ashukla\_be24\@thapar.edu}}
+}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+  Repository: \url{https://github.com/pajiala99/project_SE3}
+\end{center}
+
+\section{Higher-order goal%
+  \BvrHint{\ldots secondary framing}}
+This project aims to reduce avoidable food waste in urban settings by
+shortening the coordination gap between organisations that generate
+surplus edible food and welfare organisations that can consume it
+within its usable window. While the topic touches on broader questions
+of food security and sustainability, the immediate engineering
+objective is narrower and concrete: to translate an informal,
+phone-and-messaging-based redistribution practice into a measurable,
+deployable software workflow in which allocation decisions are
+recorded, reviewable, and made against explicit criteria.
+
+\section{Time-to-value %
+\BvrHint{\ldots primary heuristic}}
+\begin{itemize}[leftmargin=0.7cm]
+    \item We will deliver meaningful increments quickly by first building the end-to-end donation workflow --- post, match, collect, confirm --- with the simplest allocation rule that works, and validating it with users before improving the allocation itself.
+    \item We will prioritise fast feedback over perfection by using weekly iterations and CI-backed automation from the first week, so that the cost of releasing a change stays low throughout.
+    \item Success is defined by what can be delivered and measured in the first iteration --- a donation that travels from posting to confirmed pickup with timestamps at every transition --- and then improved on the evidence those timestamps provide.
+\end{itemize}
+
+\section{Problem Statement}
+Restaurants, hostel and institutional mess halls, caterers, and event
+organisers routinely end up with surplus edible food, while nearby
+welfare organisations, shelters, and community kitchens struggle to
+source food on short notice. The food is safe and immediately
+consumable, but only for a short and shrinking window. Common pain
+points include:
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf{Fragmentation:} availability is announced through calls, WhatsApp groups, and personal contacts, so surplus arising outside a coordinator's existing network is never discovered at all.
+    \item \textbf{Unoptimised allocation:} where a listing does reach several organisations, the food goes to whoever replies first. Response speed correlates with volunteer availability, not with proximity, need, or the donation's remaining shelf life.
+    \item \textbf{Low transparency:} a donor who hands food over has no record of whether it was collected or wasted, and a recipient has no visibility of what is available nearby right now.
+    \item \textbf{No measurement:} because nothing is recorded, neither party can establish what was redistributed, and no baseline exists against which any improvement could be claimed.
+\end{itemize}
+
+\textbf{Why this matters now (contextual relevance):} the binding constraint is time, not willingness. A donation typically has a usable window of a few hours; a coordination process that takes most of that window converts a solvable logistics problem into waste. Even modest reductions in time-to-match therefore translate directly into food that is eaten rather than discarded.
+
+\section{Proposed Solution %
+\BvrHint{\ldots Software Proposition}}
+\subsection{Overview}
+Build a \textbf{web-based} ``Surplus-to-Recipient'' matching system with the following components:
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf{Donor submission portal:} a donor posts a surplus listing with food type, quantity in servings, expiry/pickup deadline, and pickup locality.
+    \item \textbf{Recipient registration:} welfare organisations register with their service area, daily serving capacity, and food-type constraints (for example, dietary restrictions or absence of refrigeration).
+    \item \textbf{Automated matching:} the system filters recipients that cannot accept the donation and ranks the remainder on proximity, urgency, and capacity fit, then offers the donation to the best-fit organisation rather than broadcasting it.
+    \item \textbf{Status transparency:} both parties track the donation through its lifecycle and are notified at each transition.
+    \item \textbf{Admin/ops dashboard:} performance summaries --- servings redistributed, median time-to-match, donations lost to expiry.
+\end{itemize}
+
+\subsection{Core workflow}
+\begin{enumerate}[leftmargin=0.7cm]
+    \item Donor creates a listing and receives a donation ID immediately.
+    \item System validates completeness, geocodes the pickup locality, and filters recipients whose radius, capacity, or food-type constraints exclude them.
+    \item System scores the remaining candidates and offers the donation to the best-fit recipient.
+    \item Recipient accepts or declines within a response window; on decline or timeout the donation is re-offered to the next-best candidate.
+    \item Both parties advance the donation through Posted $\rightarrow$ Matched $\rightarrow$ Accepted $\rightarrow$ Picked Up $\rightarrow$ Completed, with a timestamp recorded at each transition.
+    \item A donation reaching its expiry deadline uncollected is marked Expired and counted against the system's own performance.
+\end{enumerate}
+
+\subsection{Operational constraints for an educational, tier-2/3 setting}
+\begin{itemize}[leftmargin=0.7cm]
+    \item Keep the solution usable on low-to-mid range devices via responsive web design; a donor's entire obligation must fit in one short form on a phone.
+    \item Avoid dependence on advanced research algorithms. Allocation uses a classical, library-backed assignment routine, not a novel or learned method.
+    \item Assume pickup transport is arranged by the two matched parties, as it is in existing informal arrangements. The system coordinates; it does not dispatch vehicles.
+    \item Design for deployability using common web hosting, a managed database, and free-tier authentication and geocoding services.
+\end{itemize}
+
+\section{Solution Approach %
+\BvrHint{\ldots Engineering focus}}
+This is an engineering course project, so we focus on scalable administrative and workflow aspects rather than novel algorithm research. The allocation logic is treated as one well-isolated component of a larger workflow system, not as the project's research contribution.
+
+\subsection{Matching and allocation %
+\BvrHint{\ldots non-research}}
+Allocation is deliberately built from mature, well-understood parts:
+\begin{itemize}[leftmargin=0.7cm]
+    \item Hard constraints are applied first, as filters. A recipient outside its declared service radius, unable to accept the food type, out of remaining capacity, or not yet verified is removed from consideration before any scoring occurs.
+    \item Ranking uses a transparent weighted score over four normalised components --- proximity, urgency (time remaining before expiry), capacity fit, and a fairness term that damps repeat allocation to the same organisation. The formula is configuration, not hidden logic, and every offer stores its component values so that any allocation can be explained after the fact.
+    \item The first iteration assigns greedily: donations are processed in order of urgency and each is offered to its highest-scoring available recipient. This is simple, fast, and correct for the common case of sparsely arriving donations.
+    \item A later iteration upgrades to a global assignment across all simultaneously open donations, using the Hungarian method via \texttt{scipy.optimize.linear\_sum\_assignment}. We make no state-of-the-art claim: this is a 1955 algorithm available as a standard library primitive, chosen precisely because it carries no implementation risk.
+    \item Staff and recipients retain the decision. The system offers and ranks; it never silently discards a donation or forces an assignment. Declines are a normal path, not an error.
+\end{itemize}
+
+\subsection{Web architecture %
+\BvrHint{\ldots web-based solution}}
+A typical 3-tier web architecture, with the allocation logic isolated behind a service boundary so it can be replaced without touching the application:
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf{Frontend:} responsive React UI for donors and recipient organisations --- submission form, offer inbox, status timeline, dashboard.
+    \item \textbf{Backend API:} Node.js with Express, handling authentication, submission, geocoding, status transitions, re-match on decline, and notification dispatch.
+    \item \textbf{Matching service:} a stateless Python component exposing a single operation --- given open donations and eligible recipients, return a scored assignment. Testable in isolation with no database dependency.
+    \item \textbf{Database:} PostgreSQL storing users, donors, recipients, donations, match offers with their score components, pickups, and notifications. Spatial indexing supports radius-constrained candidate retrieval directly in the query rather than in application code.
+\end{itemize}
+
+\subsection{CI/CD and fast delivery enabler}
+CI/CD will be used to:
+\begin{itemize}[leftmargin=0.7cm]
+    \item Automatically build and run tests on every change, with the matching service's unit tests running on every commit since that is where defects are least visible by inspection.
+    \item Produce repeatable deployment artifacts to staging.
+    \item Enable safe and frequent releases of incremental features, so that the pilot can absorb changes mid-window without a manual release process.
+\end{itemize}
+
+\section{Evaluation Criterion %
+\BvrHint{\ldots measurable and attributable}}
+We define success using measurable metrics tied to the core workflow, all derived from database timestamps rather than from self-report.
+
+\subsection{Primary evaluation metric}
+\textbf{Time-to-Match (TTM):} time between donation submission and creation of an accepted match.
+\begin{itemize}[leftmargin=0.7cm]
+    \item Target: median TTM $\le$ 20 minutes during the pilot window.
+    \item Attribution: measured from database timestamps --- the donation's \texttt{created\_at} against the \texttt{responded\_at} of the first accepted offer. Both are written by the system, not entered by users.
+\end{itemize}
+\textbf{Why this metric:} TTM is the quantity the system exists to reduce. It is fully within the software's control, unlike total pickup time, which depends on the transport arrangements of the two parties.
+
+\subsection{Secondary evaluation metrics}
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf{Rescue rate:} percentage of posted donations reaching Completed before their expiry deadline. This is the outcome measure; TTM is the mechanism.
+    \item \textbf{Offer acceptance rate:} percentage of first offers accepted rather than declined. A low rate indicates the scoring function is ranking poorly and needs re-weighting --- so this metric evaluates the allocation logic specifically.
+    \item \textbf{Mean donor-to-recipient distance:} compared between the greedy and global assignment iterations on the same scenario set, to quantify what the upgrade actually buys.
+    \item \textbf{User clarity:} donor- and recipient-reported clarity of the status timeline using a simple 1--5 feedback question.
+    \item \textbf{Reliability:} availability of staging/production for login and submission during the pilot window (target $\ge$ 99\% uptime).
+\end{itemize}
+
+\subsection{Pilot validation plan %
+\BvrHint{\ldots high-level}}
+\begin{itemize}[leftmargin=0.7cm]
+    \item Recruit 8--12 pilot donors (campus mess halls, canteens, and local eateries) and 3--5 recipient organisations, simulating recipient roles internally if real organisations are unavailable within the iteration window.
+    \item Establish a baseline through short interviews on current practice --- how surplus is announced today, and how long it typically takes to place --- before the system is introduced.
+    \item Compare TTM and rescue rate against that baseline within the iteration window, and re-run the scenario set after each change to the scoring weights.
+\end{itemize}
+
+\section{Scalability %
+\BvrHint{\ldots with foresight}}
+\begin{enumerate}[leftmargin=0.7cm]
+    \item \textbf{Scalable (theoretically):} the system should support growth in the number of donations, registered recipients, and concurrent dashboard usage by:
+    \begin{itemize}[leftmargin=0.7cm]
+        \item decoupling components (frontend / backend / matching service),
+        \item spatially indexing recipient locations so that candidate retrieval does not degrade linearly with the recipient count,
+        \item enabling pagination and indexing for common queries,
+        \item using stateless API and matching-service design.
+    \end{itemize}
+
+    \item \textbf{Operationally deployable (practically):} the system should run on common web hosting:
+    \begin{itemize}[leftmargin=0.7cm]
+        \item managed relational database with a spatial extension,
+        \item containerized or platform-hosted deployment,
+        \item CI/CD pipeline for staging/production,
+        \item cached geocoding results, so that repeated addresses cost no external calls.
+    \end{itemize}
+\end{enumerate}
+
+\section{Engine availability heuristic}
+A mature set of ``engines'' (tooling/services) is available to implement this as a web-based project:
+\begin{itemize}[leftmargin=0.7cm]
+    \item Web framework for REST APIs and reactive pages (React, Express).
+    \item Managed relational database with a spatial extension for radius queries (PostgreSQL / PostGIS).
+    \item Token-based authentication as a managed service (Firebase Auth).
+    \item Geocoding service with a free tier, with results cached locally.
+    \item An assignment-problem solver available as a standard library routine (\texttt{scipy.optimize.linear\_sum\_assignment}).
+    \item Test framework for unit and integration tests.
+    \item CI runner and staging deployment target.
+\end{itemize}
+We will use these mature components to focus on workflow design, correctness, and measurement rather than inventing new infrastructure. Notably, the one part of the system that could have been treated as a research problem --- optimal allocation --- is available off the shelf, which is what makes it affordable to include at all.
+
+\section{Project scope and deliverables %
+\BvrHint{\ldots iteration-friendly}}
+\subsection{Initial deliverable %
+\BvrHint{\ldots first iteration}}
+\begin{itemize}[leftmargin=0.7cm]
+    \item Donor submission form + donation ID generation
+    \item Recipient registration with radius, capacity, and food-type constraints
+    \item Eligibility filtering and greedy best-fit offer to a single recipient
+    \item Status workflow: accept/decline, and the transitions through to Completed
+    \item Donor and recipient status pages showing the timeline/history
+    \item Basic logging and timestamps at every transition for TTM measurement
+    \item CI: build + backend and matching-service unit tests + linting
+    \item CD to staging with a single command or pipeline job
+\end{itemize}
+
+\subsection{Subsequent deliverables}
+\begin{itemize}[leftmargin=0.7cm]
+    \item Global assignment across simultaneously open donations, with the greedy result retained for comparison
+    \item Automatic re-match on decline or response timeout, and expiry handling
+    \item Fallback path when no recipient is eligible: widen radius, then waitlist, then surface a manual list to the donor
+    \item Notification layer (email/SMS optional in a later iteration; starting with in-app notifications)
+    \item Admin dashboard for impact metrics, backlog, and expired-donation counts
+    \item Improved search/filtering and indexed queries for scale readiness
+\end{itemize}
+
+\section{Risks and mitigations}
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf{Scoring weights appear arbitrary:} define a fixed set of validation scenarios with expected outcomes before tuning, treat weights as recorded configuration, and use offer acceptance rate as an independent check on ranking quality.
+    \item \textbf{Global assignment not completed within the schedule:} the greedy matcher ships as a complete first iteration, and the upgrade is an isolated module behind a fixed service interface. The project remains demonstrable and measurable without it.
+    \item \textbf{No eligible recipient for a donation:} implement graduated fallback rather than failing --- widen the radius, then waitlist and retry, then surface a manual list. Track how often this path is taken as a signal of recipient coverage.
+    \item \textbf{Recipient legitimacy:} automated verification is out of scope and we state this plainly. An administrator approval step precedes eligibility, and the limitation is documented rather than left implicit.
+    \item \textbf{Data privacy / consent:} minimise collected data; contact details are disclosed only after a confirmed match, and photographs of food are optional.
+    \item \textbf{Geocoding rate limits during the pilot:} cache all results in the database and pre-geocode the seed dataset ahead of any demonstration.
+    \item \textbf{Evaluation measurement ambiguity:} fix the status transition definitions and instrument their timestamps before development begins, so that TTM has a single unambiguous meaning throughout.
+\end{itemize}
+
+\section{Summary}
+This project proposes a deployable web platform that closes the coordination gap between surplus food and the organisations that can use it, in a context where the binding constraint is time. It meets the course criteria by emphasising time-to-value --- an end-to-end workflow with the simplest allocation rule ships first, and the allocation improves on evidence afterwards --- by implementing CI/CD from the first iteration to support frequent safe releases, and by using measurable evaluation criteria drawn from system timestamps rather than self-report, with time-to-match as the primary metric. It remains focused on engineering workflow, correctness, and scalability readiness rather than research-driven novelty: the one optimisation component it contains is a classical algorithm consumed as a library primitive, and the project's contribution lies in formulating the domain problem correctly and measuring whether the resulting allocations are good.
+
+\end{document}
