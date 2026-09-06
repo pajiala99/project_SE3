@@ -1,0 +1,3 @@
+Worked on the backend and matching engine for the FoodBridge prototype. 
+I set up the API, authentication, donation and pickup workflows, and the admin review system. 
+I also implemented the matching service with filtering, scoring, Greedy/Hungarian matching, re-matching, and waitlisting.
