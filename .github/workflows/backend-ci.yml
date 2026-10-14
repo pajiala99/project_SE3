@@ -1,0 +1,100 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main]
+    paths: ["backend/**", ".github/workflows/backend-ci.yml"]
+  pull_request:
+    paths: ["backend/**", ".github/workflows/backend-ci.yml"]
+
+jobs:
+  matching-service:
+    name: Matching service (Python)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/matching-service
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/matching-service/requirements.txt
+      - run: pip install -r requirements.txt
+      - run: python -m pytest tests -q
+
+  api:
+    name: Backend API (Node + PostGIS)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_USER: foodbridge
+          POSTGRES_PASSWORD: foodbridge
+          POSTGRES_DB: foodbridge_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U foodbridge"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgres://foodbridge:foodbridge@localhost:5432/foodbridge_test
+      MATCHER_URL: http://localhost:8000
+    steps:
+      - uses: actions/checkout@v4
+
+      # The API tests call the real matching service on :8000.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Start matching service
+        working-directory: backend/matching-service
+        run: |
+          pip install -r requirements.txt
+          nohup uvicorn app:app --port 8000 > /tmp/matcher.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:8000/health && break; sleep 1; done
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - name: Install
+        working-directory: backend
+        run: npm ci
+      - name: Typecheck
+        working-directory: backend
+        run: npm run typecheck
+      - name: Tests
+        working-directory: backend
+        run: npm test
+
+      # Full demo against a seeded database: post -> review -> match ->
+      # accept -> pickup -> complete -> impact.
+      - name: Prepare demo database
+        env:
+          PGPASSWORD: foodbridge
+        run: |
+          psql -h localhost -U foodbridge -d foodbridge_test -c "CREATE DATABASE foodbridge;"
+          psql -h localhost -U foodbridge -d foodbridge -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+      - name: Migrate, seed, start the API and run the end-to-end demo
+        working-directory: backend
+        env:
+          DATABASE_URL: postgres://foodbridge:foodbridge@localhost:5432/foodbridge
+          GEOCODING_PROVIDER: "off"
+        run: |
+          npm run migrate
+          npm run seed
+          nohup npx tsx src/server.ts > /tmp/api.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:3000/api/health && break; sleep 1; done
+          node scripts/e2e-demo.mjs
+
+      - name: Service logs (on failure)
+        if: failure()
+        run: |
+          echo "--- matcher"; cat /tmp/matcher.log || true
+          echo "--- api"; cat /tmp/api.log || true

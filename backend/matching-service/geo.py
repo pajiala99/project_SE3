@@ -1,0 +1,20 @@
+"""Geographic helper. The canonical system computes distances with PostGIS in
+the backend (ST_Distance over geography) and passes them to this service as
+pairDistances; haversine here is the fallback used by standalone tests and
+any pair missing from that map."""
+
+import math
+
+EARTH_RADIUS_KM = 6371.0088
+
+
+def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+    d_phi = math.radians(lat2 - lat1)
+    d_lambda = math.radians(lon2 - lon1)
+    a = (
+        math.sin(d_phi / 2.0) ** 2
+        + math.cos(phi1) * math.cos(phi2) * math.sin(d_lambda / 2.0) ** 2
+    )
+    return 2.0 * EARTH_RADIUS_KM * math.asin(math.sqrt(a))
