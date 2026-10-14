@@ -1,0 +1,1 @@
+> Added automatic expiry of overdue donations and offers, notifications on cancel and expiry, rescue rate, offer acceptance rate and distance-per-strategy metrics, a full status history showing who changed what, stored reasons for every matching decision, a dietary-restriction filter in matching, and blocking of expired offers and admin self-registration.
