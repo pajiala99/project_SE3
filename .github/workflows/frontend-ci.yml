@@ -1,0 +1,49 @@
+# Proves the React client still compiles and passes lint.
+#
+# This replaces an earlier "deploy frontend preview" workflow that published to
+# GitHub Pages. That made sense when the client ran on fixture data in the
+# browser; it no longer does — every screen now talks to the Express API — so
+# publishing the built folder on its own would put up a UI that cannot reach a
+# server. Deploying the client belongs with a real staging deployment that has
+# the API and the database behind it.
+#
+# The end-to-end check against a live server is frontend/test/contract-check.mjs,
+# which needs the API, the matching service and PostGIS running, so it is run
+# locally rather than here.
+name: Frontend CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-ci.yml'
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-ci.yml'
+
+jobs:
+  build:
+    name: Frontend (lint + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
