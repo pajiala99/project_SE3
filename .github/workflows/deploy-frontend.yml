@@ -1,0 +1,64 @@
+# Publishes the React client to GitHub Pages as a preview.
+#
+# The app runs entirely on fixture data in the browser (VITE_API_MODE=mock), so
+# there is no server to deploy — the build is a folder of static files. Once the
+# Express API exists this pipeline is NOT what should ship it; that belongs with
+# the real staging deployment.
+name: Deploy frontend preview
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'code/frontend/**'
+      - '.github/workflows/deploy-frontend.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; keep the most recent.
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: code/frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: code/frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      # A broken build should fail here rather than be published.
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: code/frontend/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

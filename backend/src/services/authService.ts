@@ -3,6 +3,7 @@ import { getPool, withTransaction, type Queryable } from '../db/pool';
 import { DONOR_TYPES, ORGANIZATION_TYPES } from '../domain/enums';
 import { signToken, type AuthUser } from '../middleware/authenticate';
 import { userRepository, type UserRow } from '../repositories/userRepository';
+import { geocodingService } from './geocodingService';
 import { badRequest, conflict, unauthorized } from '../utils/errors';
 import {
   asObject,
@@ -49,8 +50,17 @@ export const authService = {
     const phone = optionalString(b, 'phone', 40);
     const address = optionalString(b, 'address', 300);
 
+    // FR-11: a location may arrive as coordinates or as a postal address. Both
+    // roles resolve it the same way a donation does — explicit coordinates win,
+    // otherwise the address goes through the cache and then the provider — so a
+    // recipient is no longer required to know its own latitude and longitude.
     let coords: { latitude?: number; longitude?: number } = {};
-    if (b.latitude !== undefined || b.longitude !== undefined) coords = coordinates(b);
+    if (b.latitude !== undefined || b.longitude !== undefined) {
+      coords = coordinates(b);
+    } else if (address && role === 'RECIPIENT') {
+      const located = await geocodingService.resolve(db, { address });
+      coords = { latitude: located.latitude, longitude: located.longitude };
+    }
 
     if (await userRepository.findByEmail(db, email)) {
       throw conflict('EMAIL_TAKEN', `An account with email '${email}' already exists.`);
@@ -75,7 +85,10 @@ export const authService = {
         const foodPreferences = optionalStringArray(b, 'foodPreferences') ?? [];
         const dietaryRestrictions = optionalStringArray(b, 'dietaryRestrictions') ?? [];
         if (coords.latitude === undefined) {
-          throw badRequest("Recipients must provide 'latitude' and 'longitude' for matching.");
+          throw badRequest(
+            "Recipients must provide a location for matching: either 'latitude' and "
+            + "'longitude', or an 'address' that can be located.",
+          );
         }
         profile = await userRepository.createRecipient(tx, {
           recipientId: user.user_id, organizationType, servingCapacity, serviceRadiusKm,

@@ -14,6 +14,7 @@ import type { Queryable } from '../db/pool';
 import { config } from '../config';
 import { badRequest } from '../utils/errors';
 import { geocacheRepository } from '../repositories/miscRepository';
+import { asObject, requiredString } from '../utils/validation';
 
 export type LocationSource = 'COORDINATES' | 'CACHE' | 'GEOCODED';
 
@@ -59,6 +60,20 @@ async function callNominatim(address: string): Promise<{ lat: number; lon: numbe
 }
 
 export const geocodingService = {
+  /**
+   * Resolve an address for a client that wants to confirm a location before it
+   * submits. Returns the same shape as `resolve`, so the caller can show which
+   * point it is about to send and whether it came from the cache or the
+   * provider. Kept separate from `resolve` only because this one always takes
+   * an address — there is nothing to fall back to.
+   */
+  async lookup(db: Queryable, body: unknown): Promise<ResolvedLocation & { address: string }> {
+    const b = asObject(body);
+    const address = requiredString(b, 'address', 300);
+    const located = await this.resolve(db, { address });
+    return { ...located, address };
+  },
+
   async resolve(
     db: Queryable,
     input: { latitude?: number; longitude?: number; address?: string },

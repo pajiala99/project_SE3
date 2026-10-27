@@ -4,12 +4,14 @@ import {
   adminController,
   authController,
   donationController,
+  geocodingController,
   impactController,
   matchController,
   notificationController,
   pickupController,
 } from '../controllers';
 import { authenticate, requireRole } from '../middleware/authenticate';
+import { rateLimit } from '../middleware/rateLimit';
 
 const wrap =
   (fn: (req: Request, res: Response, next: NextFunction) => unknown) =>
@@ -29,6 +31,7 @@ export function buildRouter(db: Queryable): Router {
   const pickups = pickupController(db);
   const notifications = notificationController(db);
   const impact = impactController(db);
+  const geocoding = geocodingController(db);
 
   const r = Router();
 
@@ -41,6 +44,13 @@ export function buildRouter(db: Queryable): Router {
   r.patch('/auth/profile', authenticate, wrap(auth.updateProfile));
 
   // ---- /api/donations (donor-facing)
+  // ---- /api/geocode — turn a postal address into coordinates so a client can
+  // confirm the point before submitting it. Deliberately unauthenticated: an
+  // organisation has to locate its own address while it is still registering,
+  // so requiring a token here would make registration by address impossible.
+  // Rate limited instead, because it reaches an external provider.
+  r.post('/geocode', rateLimit(30, 60_000), wrap(geocoding.lookup));
+
   r.post('/donations', authenticate, requireRole('DONOR'), wrap(donations.create));
   r.get('/donations/mine', authenticate, requireRole('DONOR'), wrap(donations.mine));
   r.get('/donations/:id', authenticate, wrap(donations.detail));

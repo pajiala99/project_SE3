@@ -95,16 +95,25 @@ export const donationService = {
     if (requester.role === 'DONOR' && donation.donor_id !== requester.userId) {
       throw forbidden('Donors can only view their own donations.');
     }
-    const [reviews, allMatches, allPickups, allEvents] = await Promise.all([
+    const [reviews, allMatches, allPickups, allEvents, allRatings] = await Promise.all([
       reviewRepository.listByDonation(db, donationId),
       matchRepository.listByDonation(db, donationId),
       pickupRepository.listForDonation(db, donationId),
       auditRepository.eventsForDonation(db, donationId),
+      ratingRepository.listByDonation(db, donationId),
     ]);
+
+    // FR-49: a party sees only its own clarity rating. The scores are a
+    // measurement of our interface, not feedback the two sides exchange, so
+    // showing one party the other's score would change what it measures.
+    const myRating = allRatings.find((r) => r.user_id === requester.userId) ?? null;
 
     // `events`: every status change with its time and actor (NFR-19).
     if (requester.role !== 'RECIPIENT') {
-      return { donation, reviews, matches: allMatches, pickups: allPickups, events: allEvents };
+      return {
+        donation, reviews, matches: allMatches, pickups: allPickups,
+        events: allEvents, myRating,
+      };
     }
 
     // A recipient may only open a donation that was offered to them, and sees
@@ -114,7 +123,7 @@ export const donationService = {
     if (!matches.length) throw forbidden('This donation was not offered to your organisation.');
     const pickups = allPickups.filter((p) => p.recipient_id === requester.userId);
     const events = allEvents.filter((e) => e.entity_type === 'DONATION' || e.recipient_id === requester.userId);
-    return { donation, reviews, matches, pickups, events };
+    return { donation, reviews, matches, pickups, events, myRating };
   },
 
   /**

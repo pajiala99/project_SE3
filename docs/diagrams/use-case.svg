@@ -1,0 +1,164 @@
+<svg viewBox="0 0 2200 960" width="2200" height="960" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FoodBridge use case diagram: three human actors, two system actors, and twenty-six use cases with include and extend relationships." color="#16201c" style="--diagram-bg:#fbfcfb">
+<rect width="2200" height="960" fill="#fbfcfb"/>
+<defs><marker id="oa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10" fill="none" stroke="currentColor" stroke-width="1.4"/></marker></defs>
+<rect x="20" y="215" width="2155" height="525" rx="10" fill="currentColor" fill-opacity="0.018" stroke="currentColor" stroke-width="1.6"/>
+<text x="1097.5" y="247" text-anchor="middle" font-size="21" font-weight="700" fill="currentColor" letter-spacing="0.03em">FoodBridge System</text>
+<circle cx="430" cy="77" r="11" fill="none" stroke="currentColor" stroke-width="1.8"/>
+<line x1="430" y1="88" x2="430" y2="114" stroke="currentColor" stroke-width="1.8"/>
+<line x1="414" y1="98" x2="446" y2="98" stroke="currentColor" stroke-width="1.8"/>
+<line x1="430" y1="114" x2="417" y2="135" stroke="currentColor" stroke-width="1.8"/>
+<line x1="430" y1="114" x2="443" y2="135" stroke="currentColor" stroke-width="1.8"/>
+<text x="430" y="51" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor">Donor</text>
+<rect x="1396" y="79" width="48" height="48" rx="6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<circle cx="1420" cy="103" r="10" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<line x1="1405.0" y1="103.0" x2="1435.0" y2="103.0" stroke="currentColor" stroke-width="1.6"/>
+<line x1="1409.4" y1="92.4" x2="1430.6" y2="113.6" stroke="currentColor" stroke-width="1.6"/>
+<line x1="1420.0" y1="88.0" x2="1420.0" y2="118.0" stroke="currentColor" stroke-width="1.6"/>
+<line x1="1430.6" y1="92.4" x2="1409.4" y2="113.6" stroke="currentColor" stroke-width="1.6"/>
+<circle cx="1420" cy="103" r="4.5" fill="var(--diagram-bg,#fff)" stroke="currentColor" stroke-width="1.6"/>
+<text x="1420" y="32" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor">Map / Geocoding</text>
+<text x="1420" y="51" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor">Service</text>
+<circle cx="300" cy="782" r="11" fill="none" stroke="currentColor" stroke-width="1.8"/>
+<line x1="300" y1="793" x2="300" y2="819" stroke="currentColor" stroke-width="1.8"/>
+<line x1="284" y1="803" x2="316" y2="803" stroke="currentColor" stroke-width="1.8"/>
+<line x1="300" y1="819" x2="287" y2="840" stroke="currentColor" stroke-width="1.8"/>
+<line x1="300" y1="819" x2="313" y2="840" stroke="currentColor" stroke-width="1.8"/>
+<text x="300" y="860" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor">Recipient</text>
+<text x="300" y="879" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor">Organisation</text>
+<circle cx="1150" cy="782" r="11" fill="none" stroke="currentColor" stroke-width="1.8"/>
+<line x1="1150" y1="793" x2="1150" y2="819" stroke="currentColor" stroke-width="1.8"/>
+<line x1="1134" y1="803" x2="1166" y2="803" stroke="currentColor" stroke-width="1.8"/>
+<line x1="1150" y1="819" x2="1137" y2="840" stroke="currentColor" stroke-width="1.8"/>
+<line x1="1150" y1="819" x2="1163" y2="840" stroke="currentColor" stroke-width="1.8"/>
+<text x="1150" y="860" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor">Administrator</text>
+<rect x="1426" y="784" width="48" height="48" rx="6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<circle cx="1450" cy="808" r="10" fill="none" stroke="currentColor" stroke-width="1.6"/>
+<line x1="1435.0" y1="808.0" x2="1465.0" y2="808.0" stroke="currentColor" stroke-width="1.6"/>
+<line x1="1439.4" y1="797.4" x2="1460.6" y2="818.6" stroke="currentColor" stroke-width="1.6"/>
+<line x1="1450.0" y1="793.0" x2="1450.0" y2="823.0" stroke="currentColor" stroke-width="1.6"/>
+<line x1="1460.6" y1="797.4" x2="1439.4" y2="818.6" stroke="currentColor" stroke-width="1.6"/>
+<circle cx="1450" cy="808" r="4.5" fill="var(--diagram-bg,#fff)" stroke="currentColor" stroke-width="1.6"/>
+<text x="1450" y="860" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor">Notification</text>
+<text x="1450" y="879" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor">Service</text>
+<ellipse cx="170" cy="300" rx="78" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="170" y="305.0" text-anchor="middle" font-size="15" fill="currentColor">Register / Log In</text>
+<ellipse cx="170" cy="395" rx="74" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="170" y="400.0" text-anchor="middle" font-size="15" fill="currentColor">Manage Profile</text>
+<ellipse cx="170" cy="490" rx="98" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="170" y="495.0" text-anchor="middle" font-size="15" fill="currentColor">Receive Notifications</text>
+<ellipse cx="420" cy="290" rx="80" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="420" y="286.5" text-anchor="middle" font-size="15" fill="currentColor">Track Donation</text>
+<text x="420" y="303.5" text-anchor="middle" font-size="15" fill="currentColor">/ Pickup</text>
+<ellipse cx="600" cy="290" rx="80" ry="25" fill="currentColor" fill-opacity="0.11" stroke="currentColor" stroke-width="1.3"/>
+<text x="600" y="295.0" text-anchor="middle" font-size="15" fill="currentColor">Post Surplus Food</text>
+<ellipse cx="820" cy="290" rx="82" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="820" y="286.5" text-anchor="middle" font-size="15" fill="currentColor">View / Cancel</text>
+<text x="820" y="303.5" text-anchor="middle" font-size="15" fill="currentColor">Active Listing</text>
+<ellipse cx="480" cy="395" rx="80" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="480" y="391.5" text-anchor="middle" font-size="15" fill="currentColor">Validate</text>
+<text x="480" y="408.5" text-anchor="middle" font-size="15" fill="currentColor">Donation Details</text>
+<ellipse cx="680" cy="395" rx="84" ry="25" fill="currentColor" fill-opacity="0.11" stroke="currentColor" stroke-width="1.3"/>
+<text x="680" y="391.5" text-anchor="middle" font-size="15" fill="currentColor">Submit Donation</text>
+<text x="680" y="408.5" text-anchor="middle" font-size="15" fill="currentColor">for Review</text>
+<ellipse cx="880" cy="395" rx="78" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="880" y="391.5" text-anchor="middle" font-size="15" fill="currentColor">View Donation</text>
+<text x="880" y="408.5" text-anchor="middle" font-size="15" fill="currentColor">Details</text>
+<ellipse cx="1420" cy="395" rx="84" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="1420" y="391.5" text-anchor="middle" font-size="15" fill="currentColor">Determine</text>
+<text x="1420" y="408.5" text-anchor="middle" font-size="15" fill="currentColor">Pickup Location</text>
+<ellipse cx="350" cy="520" rx="66" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="350" y="525.0" text-anchor="middle" font-size="15" fill="currentColor">Accept Match</text>
+<ellipse cx="600" cy="520" rx="64" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="600" y="525.0" text-anchor="middle" font-size="15" fill="currentColor">Reject Match</text>
+<ellipse cx="470" cy="612" rx="70" ry="25" fill="currentColor" fill-opacity="0.11" stroke="currentColor" stroke-width="1.3"/>
+<text x="470" y="617.0" text-anchor="middle" font-size="15" fill="currentColor">Review Match</text>
+<ellipse cx="760" cy="585" rx="95" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="760" y="590.0" text-anchor="middle" font-size="15" fill="currentColor">Update Pickup Status</text>
+<ellipse cx="760" cy="660" rx="90" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="760" y="665.0" text-anchor="middle" font-size="15" fill="currentColor">View Pickup Details</text>
+<ellipse cx="980" cy="620" rx="96" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="980" y="616.5" text-anchor="middle" font-size="15" fill="currentColor">Monitor Donations,</text>
+<text x="980" y="633.5" text-anchor="middle" font-size="15" fill="currentColor">Matches and Pickups</text>
+<ellipse cx="980" cy="690" rx="96" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="980" y="695.0" text-anchor="middle" font-size="15" fill="currentColor">Manage User Accounts</text>
+<ellipse cx="1480" cy="620" rx="72" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="1480" y="616.5" text-anchor="middle" font-size="15" fill="currentColor">View Impact</text>
+<text x="1480" y="633.5" text-anchor="middle" font-size="15" fill="currentColor">Dashboard</text>
+<ellipse cx="1520" cy="290" rx="76" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="1520" y="295.0" text-anchor="middle" font-size="15" fill="currentColor">Reject Donation</text>
+<ellipse cx="1760" cy="290" rx="80" ry="25" fill="currentColor" fill-opacity="0.11" stroke="currentColor" stroke-width="1.3"/>
+<text x="1760" y="295.0" text-anchor="middle" font-size="15" fill="currentColor">Approve Donation</text>
+<ellipse cx="1620" cy="395" rx="86" ry="25" fill="currentColor" fill-opacity="0.11" stroke="currentColor" stroke-width="1.3"/>
+<text x="1620" y="391.5" text-anchor="middle" font-size="15" fill="currentColor">Review Donation</text>
+<text x="1620" y="408.5" text-anchor="middle" font-size="15" fill="currentColor">Legitimacy</text>
+<ellipse cx="1960" cy="395" rx="80" ry="25" fill="currentColor" fill-opacity="0.11" stroke="currentColor" stroke-width="1.3"/>
+<text x="1960" y="391.5" text-anchor="middle" font-size="15" fill="currentColor">Run Matching</text>
+<text x="1960" y="408.5" text-anchor="middle" font-size="15" fill="currentColor">Process</text>
+<ellipse cx="1540" cy="565" rx="86" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="1540" y="561.5" text-anchor="middle" font-size="15" fill="currentColor">View Donor and</text>
+<text x="1540" y="578.5" text-anchor="middle" font-size="15" fill="currentColor">Donation Details</text>
+<ellipse cx="1850" cy="500" rx="86" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="1850" y="496.5" text-anchor="middle" font-size="15" fill="currentColor">Score and Assign</text>
+<text x="1850" y="513.5" text-anchor="middle" font-size="15" fill="currentColor">Best Match</text>
+<ellipse cx="2050" cy="500" rx="84" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="2050" y="496.5" text-anchor="middle" font-size="15" fill="currentColor">Identify Eligible</text>
+<text x="2050" y="513.5" text-anchor="middle" font-size="15" fill="currentColor">Recipients</text>
+<ellipse cx="1180" cy="520" rx="70" ry="25" fill="currentColor" fill-opacity="0.04" stroke="currentColor" stroke-width="1.3"/>
+<text x="1180" y="525.0" text-anchor="middle" font-size="15" fill="currentColor">Send Alerts</text>
+<line x1="452" y1="118" x2="204.7" y2="277.6" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="452" y1="118" x2="194.1" y2="371.4" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="452" y1="118" x2="188.6" y2="465.5" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="452" y1="118" x2="424.6" y2="265.0" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="452" y1="118" x2="579.2" y2="265.9" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="452" y1="118" x2="775.2" y2="269.1" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="322" y1="790" x2="177.7" y2="324.9" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="322" y1="790" x2="179.5" y2="419.8" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="322" y1="790" x2="182.6" y2="514.8" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="322" y1="790" x2="450.1" y2="636.0" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="322" y1="790" x2="713.4" y2="606.8" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="322" y1="790" x2="698.5" y2="678.3" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="1172" y1="790" x2="1007.1" y2="644.0" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="1172" y1="790" x2="1022.9" y2="712.4" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="1172" y1="790" x2="1441.7" y2="641.2" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="1172" y1="790" x2="1503.0" y2="314.4" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="1172" y1="790" x2="1732.4" y2="313.5" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="1420" y1="140" x2="1420.0" y2="370.0" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="1450" y1="784" x2="1204.0" y2="543.5" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.72"/>
+<line x1="573.1" y1="313.5" x2="506.9" y2="371.5" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="540" y="338" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="618.5" y1="314.3" x2="661.4" y2="370.6" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="640" y="337" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="674.0" y1="299.5" x2="1342.8" y2="385.1" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="1060" y="330" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="834.1" y1="314.6" x2="865.9" y2="370.4" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="895" y="347" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="760.0" y1="610.0" x2="760.0" y2="635.0" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="812" y="627" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="1608.3" y1="419.8" x2="1551.7" y2="540.2" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="1528" y="485" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="1800.9" y1="311.5" x2="1919.1" y2="373.5" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="1905" y="330" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="1935.1" y1="418.8" x2="1875.1" y2="476.1" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="1868" y="458" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="1980.7" y1="419.1" x2="2029.2" y2="475.8" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="2046" y="458" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="744.3" y1="411.1" x2="1122.7" y2="505.7" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="960" y="448" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="267.3" y1="492.9" x2="1110.2" y2="517.9" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="690" y="500" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;include&#187;</text>
+<line x1="379.2" y1="542.4" x2="440.4" y2="589.3" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="410" y="561" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;extend&#187;</text>
+<line x1="569.1" y1="541.9" x2="501.5" y2="589.7" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="535" y="561" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;extend&#187;</text>
+<line x1="1542.7" y1="313.9" x2="1597.1" y2="370.9" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="1570" y="337" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;extend&#187;</text>
+<line x1="1729.2" y1="313.1" x2="1651.1" y2="371.7" stroke="currentColor" stroke-width="1.15" stroke-dasharray="6 4" marker-end="url(#oa)"/>
+<text x="1718" y="358" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor" fill-opacity="0.8">&#171;extend&#187;</text>
+<path d="M 1690 742 h 430 v 86 h -420 l -10 -10 z" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-width="1.1"/>
+<text x="1706" y="768" font-size="15" fill="currentColor" fill-opacity="0.85">Internal system behaviour, not an actor.</text>
+<text x="1706" y="788" font-size="15" fill="currentColor" fill-opacity="0.85">Runs only after administrator approval.</text>
+<text x="1706" y="808" font-size="15" fill="currentColor" fill-opacity="0.85">Scores on urgency, proximity and capacity.</text>
+<path d="M 1960 745 L 1960 420" fill="none" stroke="currentColor" stroke-width="1.1" stroke-dasharray="3 3" stroke-opacity="0.6"/>
+<ellipse cx="54" cy="932" rx="19" ry="11" fill="currentColor" fill-opacity="0.11" stroke="currentColor" stroke-width="1.1"/>
+<text x="84" y="937" font-size="15.5" fill="currentColor" fill-opacity="0.85">shaded = the core donation workflow</text>
+</svg>

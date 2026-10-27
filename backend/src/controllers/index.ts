@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import type { Queryable } from '../db/pool';
 import { donationService } from '../services/donationService';
+import { geocodingService } from '../services/geocodingService';
 import { authService } from '../services/authService';
 import { impactService } from '../services/impactService';
 import { matchingService } from '../services/matchingService';
@@ -21,6 +22,13 @@ export function authController(db: Queryable) {
       res.json(await authService.getProfile(db, req.user.userId)),
     updateProfile: async (req: Request, res: Response) =>
       res.json(await authService.updateProfile(db, req.user.userId, req.body)),
+  };
+}
+
+export function geocodingController(db: Queryable) {
+  return {
+    lookup: async (req: Request, res: Response) =>
+      res.json(await geocodingService.lookup(db, req.body)),
   };
 }
 
