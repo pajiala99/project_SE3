@@ -338,6 +338,7 @@ await check('Pickup advances to PICKED_UP then COMPLETED', async () => {
   const after = await call('GET', `/donations/${donationId}`, { token: ctx.admin })
   must(after.json.donation.status === 'COMPLETED',
        `donation should be COMPLETED, got ${after.json.donation.status}`)
+  ctx.completedDonationId = donationId
   return 'COMPLETED'
 }, { required: false })
 
@@ -348,6 +349,46 @@ await check('Completing twice is rejected as an illegal transition', async () =>
   has(json, 'error')
   return json.error.code
 }, { required: false })
+
+// FR-49. Reaching this needs a completed donation, which depends on our
+// organisation having won the offer, so these report a skip rather than a
+// failure when the flow above stopped early.
+await check('A completed donation is rateable by the organisation that collected it', async () => {
+  if (!ctx.completedDonationId) return 'nothing completed this run — nothing to rate'
+  const { status, json } = await call('PUT', `/donations/${ctx.completedDonationId}/rating`, {
+    token: ctx.recipient, body: { rating: 4, comment: 'contract check' },
+  })
+  must(status === 200, `expected 200, got ${status}`)
+  has(json, 'rating')
+  return `rated ${json.rating.rating}/5`
+})
+
+await check('The donation detail returns the caller\'s own rating', async () => {
+  if (!ctx.completedDonationId) return 'nothing completed this run'
+  const mine = await call('GET', `/donations/${ctx.completedDonationId}`, { token: ctx.recipient })
+  must(mine.status === 200, `expected 200, got ${mine.status}`)
+  must(mine.json.myRating?.rating === 4,
+       `myRating should be the 4 just submitted, got ${JSON.stringify(mine.json.myRating)}`)
+
+  // The donor has not rated, so it must see null — never the organisation's
+  // score. Each party's view of its own rating is what FR-49 measures.
+  const theirs = await call('GET', `/donations/${ctx.completedDonationId}`, { token: ctx.donor })
+  if (theirs.status === 200) {
+    must(theirs.json.myRating == null,
+         'the donor is being shown the organisation\'s rating')
+  }
+  return 'own rating only'
+})
+
+await check('A rating outside 1-5 is refused', async () => {
+  if (!ctx.completedDonationId) return 'nothing completed this run'
+  const { status, json } = await call('PUT', `/donations/${ctx.completedDonationId}/rating`, {
+    token: ctx.recipient, body: { rating: 9 },
+  })
+  must(status === 400, `expected 400, got ${status}`)
+  has(json, 'error')
+  return json.error.code
+})
 
 await check('GET /api/notifications reports an unread count', async () => {
   const { status, json } = await call('GET', '/notifications', { token: ctx.donor })
