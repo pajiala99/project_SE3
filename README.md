@@ -168,3 +168,7 @@ administrator approval, matching by location, accept, pick up, complete, rate.
 Deferred to a later iteration, and marked as such in the SRS: e-mail and SMS
 notification, organisation verification documents, a manual fallback list when
 matching finds nobody, and administrator oversight screens.
+
+---
+
+**Hardik Pajiala** · [LinkedIn](https://linkedin.com/in/hardik-pajiala) · [Portfolio](https://pajiala99.github.io) · [GitHub](https://github.com/pajiala99)
