@@ -210,7 +210,20 @@ export const matchingService = {
       const result = await runMatchingCycle(request);
       const runId = await persistResult(tx, result, new Map(donations.map((d) => [d.donation_id, d])), strategy, actorId);
 
-      return { ...result, runId, expiredDonations, expiredMatches, cancelledPickups };
+      // The matcher answers in identifiers, because it has no notion of who an
+      // organisation is. An administrator reading why a donation went one way
+      // needs names, so they are attached here rather than resolved one lookup
+      // at a time by the client.
+      const nameById = new Map(request.recipients.map((r) => [r.recipientId, r.name]));
+      const explanations = result.explanations.map((e) => ({
+        ...e,
+        candidates: (e.candidates ?? []).map((c) => ({
+          ...c,
+          recipientName: nameById.get(c.recipientId) ?? null,
+        })),
+      }));
+
+      return { ...result, explanations, runId, expiredDonations, expiredMatches, cancelledPickups };
     });
   },
 

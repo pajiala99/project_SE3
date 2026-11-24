@@ -140,6 +140,10 @@ export function AdminReview() {
                   eligible organisation — it stays posted and is retried next cycle.
                 </p>
               )}
+
+              {(cycle.explanations ?? []).map((e) => (
+                <WhyPanel key={e.donationId} explanation={e} label={describe(e.donationId)?.label} />
+              ))}
             </div>
           )}
         </section>
@@ -170,6 +174,56 @@ export function AdminReview() {
         </section>
       </div>
     </>
+  )
+}
+
+/**
+ * Every organisation the cycle considered for one donation, and why each was
+ * or was not chosen.
+ *
+ * The matcher already returns this for each donation it processes, and until
+ * now nothing displayed it — an administrator could see that a donation went
+ * to someone, but not that three other organisations were ruled out first, or
+ * on what grounds. Eligibility is decided before any scoring, so the excluded
+ * rows carry a reason and no score; that is the distinction this makes visible.
+ */
+function WhyPanel({ explanation, label }) {
+  const [open, setOpen] = useState(false)
+  const candidates = [...(explanation.candidates ?? [])]
+    .sort((a, b) => (a.distanceKm ?? 1e9) - (b.distanceKm ?? 1e9))
+  if (!candidates.length) return null
+
+  const eligible = candidates.filter((c) => c.eligible).length
+
+  return (
+    <div className="stack" style={{ gap: 6 }}>
+      <button className="btn-sm" style={{ alignSelf: 'flex-start' }}
+        aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+        {open ? 'Hide' : 'Why?'} — {label ?? 'donation'}: {eligible} of {candidates.length} eligible
+      </button>
+
+      {open && (
+        <div className="stack" style={{ gap: 4, background: 'var(--surface-2)', padding: 10, borderRadius: 8 }}>
+          {candidates.map((c) => (
+            <div key={c.recipientId} className="spread" style={{ alignItems: 'flex-start', gap: 10 }}>
+              <span style={{ flex: '0 0 42%' }}>
+                {c.recipientName ?? 'Organisation'}
+                <span className="muted" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                  {c.distanceKm != null ? ` · ${Number(c.distanceKm).toFixed(2)} km` : ''}
+                </span>
+              </span>
+              <span style={{ textAlign: 'right', flex: 1 }}>
+                {c.eligible ? (
+                  <strong>eligible · score {Number(c.totalScore ?? 0).toFixed(3)}</strong>
+                ) : (
+                  <span className="hint">{(c.reasons ?? []).join(' · ') || 'not eligible'}</span>
+                )}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 
