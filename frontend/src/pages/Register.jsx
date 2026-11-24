@@ -19,7 +19,7 @@ import { DONOR_TYPES, ORGANIZATION_TYPES, FOOD_TYPES } from '../lib/format.js'
 /** Quick-fill only. The address is still resolved by the server. */
 const NEARBY = [
   'Thapar Institute, Patiala',
-  'Model Town, Patiala',
+  'Rajindra Hospital, Patiala',
   'Urban Estate, Patiala',
   'Leela Bhawan, Patiala',
 ]

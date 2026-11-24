@@ -187,9 +187,11 @@ Then use http://localhost:5173 with the same accounts. The Chandigarh and
 Manali organisations do **not** exist locally — you would create them as you go,
 which still demonstrates registration by address.
 
-**An address will not resolve** — avoid `Model Town, Patiala`; OpenStreetMap has
-no entry for that exact phrase. Use *Thapar Institute, Patiala*, *Sector 17,
-Chandigarh*, *Manali*, *Rajindra Hospital, Patiala*.
+**An address will not resolve** — OpenStreetMap only knows some phrasings. If a
+typed address fails, try a landmark instead. These are known to work: *Thapar
+Institute, Patiala*, *Rajindra Hospital, Patiala*, *Sector 17, Chandigarh*,
+*Manali*. (`Model Town, Patiala` does not, which is why it was removed from the
+shortcuts.)
 
 **Nothing happens after posting** — you have not run a matching cycle. Admin →
 **Run a matching cycle**.

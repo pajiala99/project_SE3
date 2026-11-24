@@ -8,7 +8,7 @@ import { LocationField } from '../components/LocationField.jsx'
 /** Quick-fill only. The address is still resolved by the server. */
 const NEARBY = [
   'Thapar Institute, Patiala',
-  'Model Town, Patiala',
+  'Rajindra Hospital, Patiala',
   'Urban Estate, Patiala',
   'Leela Bhawan, Patiala',
 ]
