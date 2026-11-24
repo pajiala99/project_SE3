@@ -12,6 +12,11 @@ remaining capacity.
 Built for **UCS503P Software Engineering Lab**, Thapar Institute of Engineering
 and Technology — Group 3.
 
+**Live demo:** https://deploy-sigma-ruddy.vercel.app — the frontend is hosted
+on Vercel; the API, matching service and database run on a team member's
+machine behind a tunnel, so the demo is only reachable while that machine is
+up. Demo accounts are listed [below](#demo-accounts).
+
 ---
 
 ## Architecture
