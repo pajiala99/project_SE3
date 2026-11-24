@@ -57,8 +57,3 @@ explanation tests were actually checking something.
 
 - The address shortcut fix needs another Vercel deploy to reach the live demo.
 - The live demo depends on Shikhar's machine staying awake behind the tunnel.
-
-### Next week
-
-Prepare for the viva on SDLC, SRS, UML, DFD and testing, using FoodBridge for
-every example, and run the demo once end to end before the evaluation.
