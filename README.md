@@ -146,10 +146,12 @@ tests, and a frontend lint and build on every push.
 frontend/              React client, and the contract check
 backend/               Express API, migrations, tests
   matching-service/    FastAPI scoring and allocation
-docs/                  SRS source, UML, use case diagram and its generator
+docs/                  SRS source, UML, use case diagram, demo guide
 journals/              Weekly journals, per member
 scripts/               Database bootstrap and test runners
 SRS/                   Submitted SRS (PDF and Overleaf source)
+ReportPrototype/       Mid-semester prototype report
+ReportFinal/           End-semester report (PDF, LaTeX source, figures)
 project_proposal/      Original proposal
 ```
 
